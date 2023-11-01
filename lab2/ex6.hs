@@ -1,4 +1,5 @@
 import Distribution.Compat.Lens (_1)
+import Data.ByteString (split)
 fib :: (Num a, Eq a) => a -> a
 fib n =
  if n == 0 || n == 1 then n
@@ -70,3 +71,50 @@ length'2 :: [a] -> Int
 length'2 = loop 0
  where loop acc [] = acc
        loop acc (x:xs) = loop (acc + 1) xs
+
+mSort :: (Ord a) => [a] -> [a]
+mSort = mergeAll . map (:[]) 
+  where
+    mergeAll [] = []
+    mergeAll [t] = t
+    mergeAll xs  = mergeAll (mergePairs xs)
+
+    mergePairs (x:y:xs) = merge x y:mergePairs xs
+    mergePairs xs = xs
+
+    merge [] ys         = ys
+    merge xs []         = xs
+    merge (x:xs) (y:ys) | x < y     = x:merge xs (y:ys)
+                    | otherwise = y:merge (x:xs) ys
+
+myZip :: [a] -> [b] -> [(a, b)]
+myZip [] _ = []
+myZip _ [] = []
+myZip (x:xs) (y:ys) = (x, y) : myZip xs ys
+
+myUnzip :: [(a, b)] -> ([a], [b])
+myUnzip [] = ([], [])
+myUnzip ((x, y):rest) = 
+    let (xs, ys) = myUnzip rest
+    in (x:xs, y:ys)
+
+isSorted :: [Int] -> Bool
+isSorted [x] = True
+isSorted (x:y:xs) | x < y = isSorted(y:xs)
+                  | otherwise = False
+
+reverse' :: [a] -> [a]
+reverse' [] = []
+reverse' x = last x : reverse'( take (length x - 1) x)
+
+zip3' :: [a] -> [b] -> [c] -> [(a,b,c)]
+zip3' [] [] _ = []
+zip3' [] _ [] = []
+zip3' _ [] [] = []
+zip3' (x:xs) (y:ys) (z:zs) = (x, y, z) : zip3' xs ys zs
+
+subList :: Eq a => [a] -> [a] -> Bool
+subList [] _ = True
+subList _ [] = False
+subList (x:xs) (y:ys) | x == y = subList xs ys
+                      | otherwise = subList (x:xs) ys
