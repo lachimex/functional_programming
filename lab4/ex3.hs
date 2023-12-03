@@ -17,7 +17,7 @@ show' :: Show a => Expr a -> String
 show' (Lit n) = show n
 show' (Add e1 e2) = "(" ++ show' e1 ++ "+" ++ show' e2 ++ ")"
 
-depthOfBT :: BinTree a -> Int -- głębokość drzewa binarnego
+depthOfBT :: BinTree a -> Int
 depthOfBT EmptyBT = 0
 depthOfBT (NodeBT n lt rt) = 1 + max (depthOfBT rt) (depthOfBT lt)
 
@@ -34,11 +34,11 @@ flattenBTPostOrder EmptyBT = []
 flattenBTPostOrder (NodeBT n lt rt) = flattenBTPostOrder rt ++ [n] ++ flattenBTPostOrder lt
 
 
-mapBT :: (a -> b) -> BinTree a -> BinTree b -- funkcja map dla drzewa binarnego
+mapBT :: (a -> b) -> BinTree a -> BinTree b
 mapBT f EmptyBT = EmptyBT
 mapBT f (NodeBT n lt rt) = NodeBT (f n) (mapBT f lt) (mapBT f rt)
 
-insertIntoBst :: Ord a => a -> BinTree a -> BinTree a -- insert element into BinTree
+insertIntoBst :: Ord a => a -> BinTree a -> BinTree a
 insertIntoBst x EmptyBT = NodeBT x EmptyBT EmptyBT
 insertIntoBst x (NodeBT n lt rt)
   | x == n    = NodeBT n lt rt
