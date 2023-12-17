@@ -22,3 +22,10 @@ isEmpty (MkStack s) = null s
 push x (MkStack s) = MkStack (x:s)
 top (MkStack s) = head s
 pop (MkStack (s:ss)) = (s,MkStack ss)
+
+data Tree a = Node (Tree a) a (Tree a)
+            | Leaf a deriving Show
+
+toList :: Tree a -> [a]
+toList (Leaf x) = [x]
+toList (Node left x right) = toList left ++ [x] ++ toList right
