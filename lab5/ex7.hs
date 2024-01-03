@@ -15,3 +15,10 @@ instance Functor MyTriple where
 instance Applicative MyTriple where
     pure x = MyTriple (x, x, x)
     (MyTriple (fa, fb, fc)) <*> (MyTriple (a, b, c)) = MyTriple (fa a, fb b, fc c)
+
+data Tree a = Node a (Tree a) (Tree a)
+            | Leaf
+
+paths:: Tree a -> [ [a] ]
+paths Leaf = []
+paths (Node a lt rt) = concat $ ([(a:)]) <*> (fmap paths [lt, rt])
