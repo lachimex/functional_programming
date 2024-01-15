@@ -44,3 +44,11 @@ triples n = do
     c <- vals
     guard $ (a^2 + b^2) `mod` c^2 == 1
     return [(a, b, c)]
+
+sumLog :: [Double] -> Maybe Double
+sumLog [] = Just 0
+sumLog (x:xs) = 
+  if x <= 0 then Nothing
+  else do
+    s <- sumLog xs
+    return $ s + log x
